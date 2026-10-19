@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage the food database for the Diet Optimizer. Add or remove foods with their nutritional values and price.">
     <title>Food Database | Diet Optimizer</title>
-    <link rel="icon" href="assets/favicon.jpg" type="image/svg+xml">
+    <!-- Fix #11: Correct MIME type for a JPEG favicon (was image/svg+xml) -->
+    <link rel="icon" href="assets/favicon.jpg" type="image/jpeg">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,10 +14,11 @@
     <nav class="navbar">
         <div class="container nav-flex">
             <span class="logo">🥗 Diet Optimizer</span>
+            <!-- Fix #29: Consistent nav labels across all pages -->
             <ul class="nav-links">
                 <li><a href="home.html">Optimize Diet</a></li>
-                <li><a href="foods.html">Food Database</a></li>
-                <li><a href="history.html">History & Analytics</a></li>
+                <li><a href="foods.html" class="active">Food Database</a></li>
+                <li><a href="history.html">History &amp; Analytics</a></li>
             </ul>
         </div>
     </nav>
@@ -23,12 +26,12 @@
         <section class="food-section">
             <h2>Food Database</h2>
             <form id="add-food-form" class="food-form">
-                <input type="text" id="food-name" placeholder="Food Name" required>
-                <input type="number" id="food-calories" placeholder="Calories" min="0" required>
-                <input type="number" id="food-protein" placeholder="Protein (g)" min="0" required>
-                <input type="number" id="food-carbs" placeholder="Carbs (g)" min="0" required>
-                <input type="number" id="food-fat" placeholder="Fat (g)" min="0" required>
-                <input type="number" id="food-price" placeholder="Price ($)" min="0"  required>
+                <input type="text"   id="food-name"     placeholder="Food Name"    required>
+                <input type="number" id="food-calories"  placeholder="Calories"     min="0" required>
+                <input type="number" id="food-protein"   placeholder="Protein (g)"  min="0" required>
+                <input type="number" id="food-carbs"     placeholder="Carbs (g)"    min="0" required>
+                <input type="number" id="food-fat"       placeholder="Fat (g)"      min="0" required>
+                <input type="number" id="food-price"     placeholder="Price ($)"    min="0" required>
                 <button type="submit" class="btn-primary">Add Food</button>
             </form>
             <table id="food-table">
@@ -49,7 +52,7 @@
     </main>
     <footer>
         <div class="container">
-            <span>© 2025 Diet Optimizer | Powered by Genetic Algorithms & MongoDB</span>
+            <span>© 2025 Diet Optimizer | Powered by Genetic Algorithms &amp; MongoDB</span>
         </div>
     </footer>
     <script src="app.js"></script>

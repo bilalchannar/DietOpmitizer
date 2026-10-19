@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Diet Optimizer</title>
+    <meta name="description" content="AI-powered diet optimizer using Genetic Algorithms and Constraint Satisfaction. Find the perfect meal plan for your nutrition goals and budget.">
+    <title>Optimize Diet | Diet Optimizer</title>
     <link rel="icon" href="assets/favicon.jpg" type="image/jpeg">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -13,10 +14,11 @@
     <nav class="navbar">
         <div class="container nav-flex">
             <span class="logo">🥗 Diet Optimizer</span>
+            <!-- Fix #29: "Optimize Diet" label used consistently on all pages -->
             <ul class="nav-links">
-                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="home.html" class="active">Optimize Diet</a></li>
                 <li><a href="foods.html">Food Database</a></li>
-                <li><a href="history.html">History & Analytics</a></li>
+                <li><a href="history.html">History &amp; Analytics</a></li>
             </ul>
         </div>
     </nav>
@@ -29,42 +31,43 @@
             <form id="diet-form">
                 <div class="form-row">
                     <div class="form-group">
+                        <!-- Fix #24: placeholder defaults added to all inputs -->
                         <label for="calories">Calories (kcal)</label>
-                        <input type="number" id="calories" name="calories" min="1000" max="4000" required>
+                        <input type="number" id="calories" name="calories" min="1000" max="4000" placeholder="e.g. 2000" required>
                     </div>
                     <div class="form-group">
                         <label for="protein">Protein (g)</label>
-                        <input type="number" id="protein" name="protein" min="10" max="300" required>
+                        <input type="number" id="protein" name="protein" min="10" max="300" placeholder="e.g. 150" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="carbs">Carbs (g)</label>
-                        <input type="number" id="carbs" name="carbs" min="50" max="600" required>
+                        <input type="number" id="carbs" name="carbs" min="50" max="600" placeholder="e.g. 250" required>
                     </div>
                     <div class="form-group">
                         <label for="fat">Fat (g)</label>
-                        <input type="number" id="fat" name="fat" min="10" max="200" required>
+                        <input type="number" id="fat" name="fat" min="10" max="200" placeholder="e.g. 70" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="budget">Budget ($)</label>
-                        <input type="number" id="budget" name="budget" min="1" max="100" required>
+                        <input type="number" id="budget" name="budget" min="1" max="100" placeholder="e.g. 20" required>
                     </div>
                     <div class="form-group">
                         <label for="population">Population Size</label>
-                        <input type="number" id="population" name="population" min="10" max="200" required>
+                        <input type="number" id="population" name="population" min="10" max="200" placeholder="e.g. 30" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="generations">Generations</label>
-                        <input type="number" id="generations" name="generations" min="10" max="500" required>
+                        <input type="number" id="generations" name="generations" min="10" max="500" placeholder="e.g. 50" required>
                     </div>
                     <div class="form-group">
                         <label for="tolerance">CSP Tolerance (%)</label>
-                        <input type="number" id="tolerance" name="tolerance" min="5" max="50">
+                        <input type="number" id="tolerance" name="tolerance" min="5" max="50" placeholder="e.g. 25">
                     </div>
                 </div>
                 <div class="form-row technique-selector">
@@ -82,13 +85,20 @@
                     </div>
                     <input type="hidden" id="technique" name="technique" value="ga">
                 </div>
+                <!-- Fix #23: Loading spinner shown during optimization -->
+                <div id="optimize-spinner" class="spinner-overlay" style="display:none;">
+                    <div class="spinner"></div>
+                    <span>Optimizing your diet…</span>
+                </div>
                 <button type="submit" class="btn-primary">Optimize Diet</button>
             </form>
         </section>
         <div class="center-btns">
             <a href="foods.html" class="btn-primary" style="margin-right:16px;">Manage Foods</a>
-            <a href="history.html" class="btn-primary">View History & Analytics</a>
+            <a href="history.html" class="btn-primary">View History &amp; Analytics</a>
         </div>
+
+        <!-- Single-technique result -->
         <section id="result-section" class="result-section" style="display:none;">
             <h2>Optimized Diet Plan</h2>
             <div id="technique-label" class="technique-label"></div>
@@ -104,7 +114,7 @@
             </table>
             <div id="result-score"></div>
         </section>
-        
+
         <!-- Comparison section for "both" technique -->
         <section id="comparison-section" class="result-section" style="display:none;">
             <h2>⚖️ Technique Comparison</h2>
@@ -130,10 +140,19 @@
             </div>
             <div id="comparison-verdict" class="comparison-verdict"></div>
         </section>
+
+        <!-- Diet breakdown chart -->
+        <section id="charts-section" class="result-section" style="display:none;">
+            <h2>📊 Diet Breakdown</h2>
+            <canvas id="nutrition-chart" height="120"></canvas>
+        </section>
+
+        <!-- Fix #9: Meal plan section — rendered by displayMealPlan() in app.js -->
+        <div id="meal-plan-section" class="meal-plan-section" style="display:none;"></div>
     </main>
     <footer>
         <div class="container">
-            <span>© 2025 Diet Optimizer | Powered by Genetic Algorithms & MongoDB</span>
+            <span>© 2025 Diet Optimizer | Powered by Genetic Algorithms &amp; MongoDB</span>
         </div>
     </footer>
     <script src="app.js"></script>

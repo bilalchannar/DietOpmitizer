@@ -1,4 +1,5 @@
 services:
+  # ── Flask API backend ───────────────────────────────────────────────────────
   app:
     build: .
     restart: unless-stopped
@@ -6,15 +7,20 @@ services:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/
+      # Allow both the Nginx-served frontend and direct localhost access
+      - CORS_ORIGINS=http://localhost,http://127.0.0.1,http://localhost:80
+    depends_on:
+      - mongo
 
+  # ── MongoDB (internal only — no public port) ────────────────────────────────
   mongo:
-    image: mongo
+    image: mongo:7
     restart: unless-stopped
-    ports:
-      - "27017:27017"
+    # Fix #35: No public port binding; accessible only within Docker network
     volumes:
       - mongo_data:/data/db
 
+  # ── Mongo Express admin UI ──────────────────────────────────────────────────
   mongo-express:
     image: mongo-express:latest
     restart: unless-stopped
@@ -22,12 +28,26 @@ services:
       - "8081:8081"
     environment:
       - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017/
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=pass
-      - ME_CONFIG_BASICAUTH_USERNAME=admin
-      - ME_CONFIG_BASICAUTH_PASSWORD=pass
+      # Fix #13: Credentials sourced from .env file, not hardcoded
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_EXPRESS_USER:-admin}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_EXPRESS_PASS:-changeme_please}
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_EXPRESS_USER:-admin}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_EXPRESS_PASS:-changeme_please}
     depends_on:
       - mongo
+
+  # ── Nginx: serves the static frontend ──────────────────────────────────────
+  # Fix #32: Frontend containerised with Nginx for a unified docker compose up
+  frontend:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ../frontend:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
 
 volumes:
   mongo_data:

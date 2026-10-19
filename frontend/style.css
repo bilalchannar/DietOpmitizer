@@ -74,7 +74,8 @@ label {
   font-weight: 500;
   margin-bottom: 6px;
 }
-input[type="number"] {
+input[type="number"],
+input[type="text"] {
   padding: 10px 12px;
   border: 1.5px solid #cfd8dc;
   border-radius: 6px;
@@ -82,7 +83,8 @@ input[type="number"] {
   background: #f7fafc;
   transition: border 0.2s;
 }
-input[type="number"]:focus {
+input[type="number"]:focus,
+input[type="text"]:focus {
   border: 1.5px solid #388e3c;
   outline: 0;
 }
@@ -101,10 +103,17 @@ input[type="number"]:focus {
   cursor: pointer;
   margin-top: 10px;
   box-shadow: 0 2px 8px rgba(67, 160, 71, 0.08);
-  transition: background 0.2s;
+  transition: background 0.2s, opacity 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 .btn-primary:hover {
   background: linear-gradient(90deg, #388e3c 60%, #43a047 100%);
+}
+.btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 .result-section,
 #charts-section,
@@ -175,6 +184,7 @@ footer {
   font-size: 1rem;
   background: #f7fafc;
 }
+#food-table .btn-delete,
 #food-table button {
   background: #e53935;
   color: #fff;
@@ -183,7 +193,9 @@ footer {
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.95rem;
+  transition: background 0.2s;
 }
+#food-table .btn-delete:hover,
 #food-table button:hover {
   background: #b71c1c;
 }
@@ -227,8 +239,7 @@ footer {
   gap: 24px;
   margin: 0;
   padding: 0;
-  float: right;
-  margin-left: auto;
+  margin-left: auto;   /* Fix #27: was `float: 0` which is invalid CSS */
 }
 .nav-links li {
   display: inline;
@@ -395,6 +406,152 @@ footer {
 .comparison-verdict small {
   color: #888;
 }
+
+/* ── Loading Spinner (#23) ─────────────────────────────────────────────────── */
+.spinner-overlay {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  background: rgba(232, 245, 233, 0.85);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #388e3c;
+  font-weight: 500;
+}
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #c8e6c9;
+  border-top-color: #388e3c;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Toast Notifications ───────────────────────────────────────────────────── */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 0.97rem;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.3s, transform 0.3s;
+  max-width: 320px;
+  pointer-events: auto;
+}
+.toast-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast-success { background: #388e3c; }
+.toast-error   { background: #c62828; }
+.toast-warning { background: #f57c00; }
+
+/* ── Error / Empty State ───────────────────────────────────────────────────── */
+.error-msg {
+  color: #c62828;
+  font-weight: 500;
+}
+.empty-state-cell {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px !important;
+}
+.error-cell {
+  color: #c62828 !important;
+}
+.history-empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: #666;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(56, 142, 60, 0.07);
+  margin-bottom: 32px;
+}
+.history-empty-state h3 {
+  font-size: 1.3rem;
+  color: #388e3c;
+  margin-bottom: 10px;
+}
+.history-empty-state p {
+  font-size: 1rem;
+  margin: 0;
+}
+.history-empty-state a {
+  color: #388e3c;
+  font-weight: 600;
+}
+
+/* ── Meal Plan Section (#9) ────────────────────────────────────────────────── */
+.meal-plan-section {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(56, 142, 60, 0.07);
+  padding: 24px 22px 18px;
+  margin-bottom: 32px;
+}
+.meal-plan-section h3 {
+  font-size: 1.15rem;
+  color: #388e3c;
+  margin: 0 0 16px;
+}
+.meal-grid {
+  display: flex;
+  gap: 16px;
+}
+.meal-card {
+  flex: 1;
+  background: #f4f8fb;
+  border-radius: 8px;
+  padding: 14px 16px;
+  border: 1.5px solid #e0e0e0;
+}
+.meal-card h4 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  color: #388e3c;
+}
+.meal-card ul {
+  margin: 0;
+  padding: 0 0 0 16px;
+}
+.meal-card li {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: #333;
+}
+.meal-qty {
+  font-size: 0.88rem;
+  color: #777;
+  font-weight: 600;
+}
+.meal-empty {
+  color: #bbb;
+  font-style: italic;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 700px) {
   .container {
     max-width: 98vw;
@@ -411,11 +568,12 @@ footer {
   .nav-links {
     flex-direction: column;
     gap: 8px;
-    float: 0;
+    float: none;   /* Fix #27: was `float: 0` which is invalid CSS */
     margin-top: 10px;
   }
   .technique-buttons,
-  .comparison-container {
+  .comparison-container,
+  .meal-grid {
     flex-direction: column;
   }
 }

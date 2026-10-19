@@ -1,57 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>History & Analytics | Diet Optimizer</title>
-    <link rel="icon" href="assets/favicon.jpg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View optimization history and analytics for the Diet Optimizer. Track your best scores and most-used foods over time.">
+    <title>History &amp; Analytics | Diet Optimizer</title>
+    <!-- Fix #11: Correct MIME type for a JPEG favicon (was image/svg+xml) -->
+    <link rel="icon" href="assets/favicon.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <nav class="navbar">
-      <div class="container nav-flex">
-        <span class="logo">🥗 Diet Optimizer</span>
-        <ul class="nav-links">
-          <li><a href="home.html">Optimize Diet</a></li>
-          <li><a href="foods.html">Food Database</a></li>
-          <li><a href="history.html" class="active">History & Analytics</a></li>
-        </ul>
-      </div>
+        <div class="container nav-flex">
+            <span class="logo">🥗 Diet Optimizer</span>
+            <!-- Fix #29: Consistent nav labels across all pages -->
+            <ul class="nav-links">
+                <li><a href="home.html">Optimize Diet</a></li>
+                <li><a href="foods.html">Food Database</a></li>
+                <li><a href="history.html" class="active">History &amp; Analytics</a></li>
+            </ul>
+        </div>
     </nav>
     <main class="container">
-      <section id="history-section" class="result-section">
-        <h2>Optimization History</h2>
-        <table id="history-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Score</th>
-              <th>Top Foods</th>
-              <th>Cost</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div id="history-best"></div>
-      </section>
-      <section id="charts-section" class="result-section">
-        <h2>Nutrition & Cost Breakdown</h2>
-        <canvas id="nutrition-chart" height="120"></canvas>
-        <canvas id="cost-chart" height="120"></canvas>
-      </section>
+        <!-- Fix #28: Empty state shown when there is no history yet -->
+        <div id="history-empty" class="history-empty-state" style="display:none;">
+            <h3>📭 No optimization history yet</h3>
+            <p>Run your first diet optimization on the <a href="home.html">Home page</a> to see results here.</p>
+        </div>
+
+        <!-- Fix #10: Hidden on load; shown by loadHistory() only when data exists -->
+        <section id="history-section" class="result-section" style="display:none;">
+            <h2>Optimization History</h2>
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Score</th>
+                        <th>Top Foods</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div id="history-best"></div>
+        </section>
+
+        <!-- Fix #26: Hidden on load; shown only when charts have data -->
+        <section id="charts-section" class="result-section" style="display:none;">
+            <h2>Nutrition &amp; Cost Breakdown</h2>
+            <canvas id="nutrition-chart" height="120"></canvas>
+            <canvas id="cost-chart" height="120"></canvas>
+        </section>
     </main>
     <footer>
-      <div class="container">
-        <span
-          >© 2025 Diet Optimizer | Powered by Genetic Algorithms & MongoDB</span
-        >
-      </div>
+        <div class="container">
+            <span>© 2025 Diet Optimizer | Powered by Genetic Algorithms &amp; MongoDB</span>
+        </div>
     </footer>
     <script src="app.js"></script>
-  </body>
+</body>
 </html>
